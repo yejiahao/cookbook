@@ -17,7 +17,7 @@ D:\mysql-8.0.16-winx64\bin\mysqld.exe  Ver 8.0.16 for Win64 on x86_64 (MySQL Com
 ```
 
 ### 4. 根目录生成 data 文件夹
-~~mysqld --initialize-insecure --user=mysql #V5.7.19~~
+~~mysqld --initialize-insecure --user=mysql # V5.7.19~~
 ```
 C:\WINDOWS\system32>mysqld --initialize --console
 2019-06-02T04:11:33.288316Z 0 [System] [MY-013169] [Server] D:\mysql-8.0.16-winx64\bin\mysqld.exe (mysqld 8.0.16) initializing of server in progress as process 12844
@@ -50,9 +50,10 @@ default-character-set=UTF8MB4
 default-character-set=UTF8MB4
 ```
 
-### 6. 安装 MySQL 服务（DOS管理员身份）
+### 6. 安装 MySQL 服务
 ```
-C:\WINDOWS\system32>mysqld install MySQL --defaults-file="%MYSQL_HOME%\my.ini"
+C:\WINDOWS\system32>mysqld install MySQL --defaults-file="%MYSQL_HOME%\my.ini" # DOS管理员
+C:\WINDOWS\system32>mysqld install MySQL --defaults-file="$env:MYSQL_HOME\my.ini" # PowerShell管理员
 Service successfully installed.
 ```
 
@@ -66,7 +67,7 @@ C:\WINDOWS\system32>mysql -u root -p
 
 ~~mysql> use mysql;~~
 
-~~mysql> SET PASSWORD FOR 'root'@'localhost' = PASSWORD('20170419'); #V5.7.19~~
+~~mysql> SET PASSWORD FOR 'root'@'localhost' = PASSWORD('20170419'); # V5.7.19~~
 ```
 Enter password: ************
 Welcome to the MySQL monitor.  Commands end with ; or \g.
