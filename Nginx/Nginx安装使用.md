@@ -1,8 +1,8 @@
 ### 查看系统版本
 ```
-[root@localhost ~]# uname -a
+[root@vm2 ~]# uname -a
 Linux localhost.yejh 2.6.32-754.el6.x86_64 #1 SMP Tue Jun 19 21:26:04 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
-[root@localhost ~]# cat /etc/issue
+[root@vm2 ~]# cat /etc/issue
 CentOS release 6.10 (Final)
 Kernel \r on an \m
 
@@ -21,15 +21,15 @@ then
     yum -y install pcre-devel zlib-devel openssl-devel
     # download
     echo "downloading ${package}"
-    wget -c -P ~/upload/ http://nginx.org/download/${package}
+    wget -c -P $HOME/upload/ http://nginx.org/download/${package}
     echo "downloaded ${package}"
     # extract and install
-    tar -zxvf ~/upload/${package} -C ~/ && cd ~/$1/
+    tar -zxvf $HOME/upload/${package} -C $HOME/ && cd $HOME/$1/
     # refer to http://nginx.org/en/docs/configure.html
     ./configure --prefix=${instPath}/$1 --with-http_ssl_module --with-http_stub_status_module
     make && make install
     # delete source folder
-    rm -rf ~/$1/
+    rm -rf $HOME/$1/
     # (create|update) symbolic link
     ln -snf $1/ ${instPath}/home
 
@@ -52,7 +52,7 @@ export PATH NGINX_HOME
 ```sh
 nginx -V # 查看版本
 nginx -t # 验证配置
-nginx -c [/usr/nginx/home/conf/nginx.conf] # 启动服务
+nginx [-c $NGINX_HOME/conf/nginx.conf] # 启动服务
 nginx -s reopen # 打开日志
 nginx -s reload # 重载配置
 nginx -s quit # 正常关闭
