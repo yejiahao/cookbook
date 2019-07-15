@@ -34,6 +34,7 @@ Welcome to cookbook. I hope these guides can help you.
 ### MySQL
 - [**MySQL安装**](./MySQL/MySQL安装.md)
 - [**MySQL安装(CentOS版)**](./MySQL/MySQL安装(CentOS版).md)
+- [**MySQL主从复制**](./MySQL/MySQL主从复制.md)
 - [**SQL练习**](./MySQL/SQL练习.md)
 
 ### Nginx
