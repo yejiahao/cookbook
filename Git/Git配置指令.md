@@ -111,3 +111,38 @@ git rebase dev-2
 * 01c5fd2 - master 2 (33 minutes ago) <yejiahao>
 * 0ee43b7 - master 1 (33 minutes ago) <yejiahao>
 ```
+
+### fork 仓库同步
+```sh
+$ git remote add forked <forked repo url>.git
+
+$ git remote -v
+forked    <forked repo url>.git (fetch)
+forked    <forked repo url>.git (push)
+origin  <own remote repo url>.git (fetch)
+origin  <own remote repo url>.git (push)
+
+$ git fetch forked
+From <forked repo url>
+ * [new branch]      master     -> forked/master
+
+$ git merge forked/master
+Updating 81a0fa3..faf9793
+Fast-forward
+ ...
+
+$ git lg
+* faf9793 - (HEAD -> master, forked/master) third ci
+* f2d7b5b - second ci
+* 81a0fa3 - (origin/master, origin/HEAD) first ci
+
+$ git push
+Total 0 (delta 0), reused 0 (delta 0)
+To <own remote repo url>.git
+   81a0fa3..faf9793  master -> master
+
+$ git lg
+* faf9793 - (HEAD -> master, origin/master, origin/HEAD, forked/master) third ci
+* f2d7b5b - second ci
+* 81a0fa3 - first ci
+```
