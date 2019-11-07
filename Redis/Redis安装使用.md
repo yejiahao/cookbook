@@ -18,9 +18,9 @@
 
 #### 1. 查看系统版本
 ```
-[root@localhost ~]# uname -a
+[root@vmx ~]# uname -a
 Linux localhost.yejh 2.6.32-754.el6.x86_64 #1 SMP Tue Jun 19 21:26:04 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
-[root@localhost ~]# cat /etc/issue
+[root@vmx ~]# cat /etc/issue
 CentOS release 6.10 (Final)
 Kernel \r on an \m
 
@@ -68,33 +68,33 @@ daemonize yes # 守护线程，后台运行
 
 #### 3. 后台启动关闭 Redis 服务端
 ```
-[root@localhost ~]# redis-server /usr/redis/home/redis.conf
+[root@vmx ~]# redis-server /usr/redis/home/redis.conf
 9019:C 03 Jun 2019 14:07:50.888 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 9019:C 03 Jun 2019 14:07:50.888 # Redis version=5.0.5, bits=64, commit=00000000, modified=0, pid=9019, just started
 9019:C 03 Jun 2019 14:07:50.888 # Configuration loaded
-[root@localhost ~]# 
-[root@localhost ~]# pkill redis-server
+[root@vmx ~]# 
+[root@vmx ~]# pkill redis-server
 ```
 
 #### 4. 启动关闭 Redis 客户端
 ```
-[root@localhost ~]# redis-cli
+[root@vmx ~]# redis-cli
 127.0.0.1:6379> SET k1 v1
 OK
 127.0.0.1:6379> GET k1
 "v1"
 127.0.0.1:6379> EXIT
-[root@localhost ~]# 
-[root@localhost ~]# redis-cli SHUTDOWN
+[root@vmx ~]# 
+[root@vmx ~]# redis-cli SHUTDOWN
 ```
 
 #### 5. 查看端口情况
 ```
-[root@localhost ~]# netstat -anop | grep 6379
+[root@vmx ~]# netstat -anop | grep 6379
 tcp        0      0 0.0.0.0:6379                0.0.0.0:*                   LISTEN      9020/redis-server * off (0.00/0/0)
 tcp        0      0 :::6379                     :::*                        LISTEN      9020/redis-server * off (0.00/0/0)
-[root@localhost ~]# 
-[root@localhost ~]# lsof -i:6379
+[root@vmx ~]# 
+[root@vmx ~]# lsof -i:6379
 COMMAND    PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
 redis-ser 9020 root    6u  IPv6  38989      0t0  TCP *:6379 (LISTEN)
 redis-ser 9020 root    7u  IPv4  38990      0t0  TCP *:6379 (LISTEN)
@@ -105,12 +105,74 @@ redis-ser 9020 root    7u  IPv4  38990      0t0  TCP *:6379 (LISTEN)
 
 6.2. 删除 redis installed 文件
 ```
-[root@localhost ~]# rm -f /usr/local/bin/redis*
+[root@vmx ~]# rm -f /usr/local/bin/redis*
 ```
 
 6.3. 删除 redis extracted 文件
 ```
-[root@localhost ~]# rm -rf /usr/redis/
+[root@vmx ~]# rm -rf /usr/redis/
+```
+
+### 7. 设置自启动
+7.1 添加启动文件
+
+***/etc/init.d/redis***
+```sh
+#!/bin/sh
+
+# chkconfig: 3 10 90
+# description: start and stop Redis
+
+port=6379
+redisServer=/usr/local/bin/redis-server
+redisClient=/usr/local/bin/redis-cli
+pidfile=/var/run/redis_6379.pid
+conf="/usr/redis/home/redis.conf"
+
+case "$1" in
+start)
+  if [ -f $pidfile ]; then
+    echo "$pidfile exists, process is already running or crashed."
+  else
+    echo "Starting Redis server..."
+    $redisServer $conf
+  fi
+  if [ "$?" = "0" ]; then
+    echo "Redis is running..."
+  fi
+  ;;
+stop)
+  if [ ! -f $pidfile ]; then
+    echo "$pidfile not exists, process is not running."
+  else
+    echo "Stopping Redis server..."
+    $redisClient -p $port SHUTDOWN
+    while [ -x $pidfile ]; do
+      echo "Waiting for Redis to shutdown..."
+      sleep 1
+    done
+    echo "Redis stopped"
+  fi
+  ;;
+restart)
+  ${0} stop
+  ${0} start
+  ;;
+*)
+  echo "Usage: /etc/init.d/redis {start|stop|restart}" >&2
+  exit 1
+  ;;
+esac
+```
+
+7.2 配置启动
+```
+[root@vmx ~]# chmod +x /etc/init.d/redis
+[root@vmx ~]# chkconfig --add redis
+[root@vmx ~]# chkconfig --list redis
+redis           0:off   1:off   2:off   3:on    4:off   5:off   6:off
+[root@vmx ~]# service redis
+Usage: /etc/init.d/redis {start|stop|restart}
 ```
 
 ***
