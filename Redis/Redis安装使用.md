@@ -56,7 +56,7 @@ then
     exit 0
 fi
 
-echo "Usage: $0 [version(e.g., redis-5.0.5)]"
+echo "Usage: $0 [version(e.g., redis-5.0.6)]"
 ```
 
 ***/usr/redis/home/redis.conf***
@@ -64,28 +64,31 @@ echo "Usage: $0 [version(e.g., redis-5.0.5)]"
 # bind 127.0.0.1 # 远程连接
 protected-mode no # 远程无认证
 daemonize yes # 守护线程，后台运行
+requirepass 20170419 # 认证密码
 ```
 
 #### 3. 后台启动关闭 Redis 服务端
 ```
 [root@vmx ~]# redis-server /usr/redis/home/redis.conf
-9019:C 03 Jun 2019 14:07:50.888 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
-9019:C 03 Jun 2019 14:07:50.888 # Redis version=5.0.5, bits=64, commit=00000000, modified=0, pid=9019, just started
-9019:C 03 Jun 2019 14:07:50.888 # Configuration loaded
+15669:C 12 Nov 2019 11:45:24.327 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+15669:C 12 Nov 2019 11:45:24.327 # Redis version=5.0.6, bits=64, commit=00000000, modified=0, pid=15669, just started
+15669:C 12 Nov 2019 11:45:24.327 # Configuration loaded
 [root@vmx ~]# 
 [root@vmx ~]# pkill redis-server
 ```
 
 #### 4. 启动关闭 Redis 客户端
 ```
-[root@vmx ~]# redis-cli
+[root@vmx ~]# redis-cli -a 20170419
+Warning: Using a password with '-a' or '-u' option on the command line interface may not be safe.
 127.0.0.1:6379> SET k1 v1
 OK
 127.0.0.1:6379> GET k1
 "v1"
 127.0.0.1:6379> EXIT
 [root@vmx ~]# 
-[root@vmx ~]# redis-cli SHUTDOWN
+[root@vmx ~]# redis-cli -a 20170419 SHUTDOWN
+Warning: Using a password with '-a' or '-u' option on the command line interface may not be safe.
 ```
 
 #### 5. 查看端口情况
@@ -124,6 +127,7 @@ redis-ser 9020 root    7u  IPv4  38990      0t0  TCP *:6379 (LISTEN)
 # description: start and stop Redis
 
 port=6379
+requirepass=20170419
 redisServer=/usr/local/bin/redis-server
 redisClient=/usr/local/bin/redis-cli
 pidfile=/var/run/redis_6379.pid
@@ -146,7 +150,7 @@ stop)
     echo "$pidfile not exists, process is not running."
   else
     echo "Stopping Redis server..."
-    $redisClient -p $port SHUTDOWN
+    $redisClient -a $requirepass -p $port SHUTDOWN
     while [ -x $pidfile ]; do
       echo "Waiting for Redis to shutdown..."
       sleep 1
