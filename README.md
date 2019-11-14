@@ -25,8 +25,9 @@ Welcome to cookbook. I hope these guides can help you.
 - [**Java技术手册**](./Java/Java技术手册.md)
 - [**JDK指令**](./Java/JDK指令.md)
 
-### kafka
-- [**kafka安装使用**](./kafka/kafka安装使用.md)
+### MQ
+- [**kafka安装使用**](./MQ/kafka安装使用.md)
+- [**rocketmq部署方案**](./MQ/rocketmq部署方案.md)
 
 ### Maven
 - [**Maven配置**](./Maven/Maven配置.md)
