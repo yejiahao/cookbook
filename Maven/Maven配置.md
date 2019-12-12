@@ -28,7 +28,7 @@ OS name: "linux", version: "2.6.32-754.el6.x86_64", arch: "amd64", family: "unix
 ### 配置阿里云镜像中央仓库
 ***$MAVEN_HOME/conf/settings.xml***
 ```xml
-<localRepository>/usr/maven/home/Maven_Repository</localRepository>
+<localRepository>/usr/maven/Maven_Repository</localRepository>
 
 <mirrors>
   <mirror>
