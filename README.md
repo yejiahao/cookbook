@@ -46,6 +46,7 @@ Welcome to cookbook. I hope these guides can help you.
 
 ### Redis
 - [**Redis安装使用**](./Redis/Redis安装使用.md)
+- [**Redis Sentinel演练**](./Redis/Redis Sentinel演练.md)
 
 [star-image]: https://badgen.net/github/stars/yejiahao/cookbook
 [star-url]: https://github.com/yejiahao/cookbook/stargazers
