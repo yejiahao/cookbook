@@ -41,8 +41,9 @@ OS name: "linux", version: "2.6.32-754.el6.x86_64", arch: "amd64", family: "unix
 ```
 
 ### 安装 jar 包到本地仓库
+- [参考文档](http://maven.apache.org/components/plugins/maven-install-plugin/install-file-mojo.html)
 ```
-[root@localhost ~]# mvn install:install-file -Dfile="ojdbc14-10.2.0.1.0.jar" -DgroupId="com.oracle" -DartifactId="ojdbc14" -Dversion="10.2.0.1.0" -Dpackaging="jar"
+[root@localhost ~]# mvn install:install-file -Dfile="ojdbc14-10.2.0.1.0.jar" -DgroupId="com.oracle" -DartifactId="ojdbc14" -Dversion="10.2.0.1.0" -Dpackaging="jar" -DpomFile="ojdbc14-10.2.0.1.0.pom"
 [INFO] Scanning for projects...
 [INFO] 
 [INFO] ------------------< org.apache.maven:standalone-pom >-------------------
