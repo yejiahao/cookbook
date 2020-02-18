@@ -17,7 +17,7 @@ D:\mysql-8.0.16-winx64\bin\mysqld.exe  Ver 8.0.16 for Win64 on x86_64 (MySQL Com
 ```
 
 ### 4. 根目录生成 data 文件夹
-~~mysqld --initialize-insecure --user=mysql # V5.7.19~~
+~~mysqld --initialize-insecure --user=mysql # V5.7.29~~
 ```
 C:\WINDOWS\system32>mysqld --initialize --console
 2019-06-27T08:57:52.722441Z 0 [System] [MY-013169] [Server] D:\mysql-8.0.16-winx64\bin\mysqld.exe (mysqld 8.0.16) initializing of server in progress as process 7560
@@ -30,12 +30,12 @@ C:\WINDOWS\system32>mysqld --initialize --console
 ```properties
 [mysqld]
 character-set-server = UTF8MB4
-# 绑定IPv4和3306端口
+# 绑定 IPv4 和 3306 端口
 bind-address = 0.0.0.0
 port = 3306
-# 设置mysql的安装目录
+# 设置 mysql 的安装目录
 basedir = D:\mysql-8.0.16-winx64
-# 设置mysql数据库的数据的存放目录
+# 设置 mysql 数据库的数据的存放目录
 datadir = D:\mysql-8.0.16-winx64\data
 # 允许最大连接数
 max_connections = 200
@@ -66,13 +66,13 @@ MySQL 服务已经启动成功。
 
 ### 8. 修改密码
 ```
-C:\WINDOWS\system32>mysql -u root -p
+C:\WINDOWS\system32>mysql -P 3306 -u root -p
 ```
 ~~Enter password:~~
 
 ~~mysql> use mysql;~~
 
-~~mysql> SET PASSWORD FOR 'root'@'localhost' = PASSWORD('20170419'); # V5.7.19~~
+~~mysql> SET PASSWORD FOR 'root'@'localhost' = PASSWORD('20170419'); # V5.7.29~~
 ```
 Enter password: ************
 Welcome to the MySQL monitor.  Commands end with ; or \g.
