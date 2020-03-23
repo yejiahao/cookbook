@@ -29,6 +29,7 @@ Welcome to cookbook. I hope these guides can help you.
 ### MQ
 - [**kafka安装使用**](./MQ/kafka安装使用.md)
 - [**rocketmq部署方案**](./MQ/rocketmq部署方案.md)
+- [**rocketmq-console部署**](./MQ/rocketmq-console部署.md)
 
 ### Maven
 - [**Maven配置**](./Maven/Maven配置.md)
