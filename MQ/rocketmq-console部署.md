@@ -13,19 +13,19 @@ Default locale: en_US, platform encoding: UTF-8
 OS name: "linux", version: "2.6.32-754.el6.x86_64", arch: "amd64", family: "unix"
 [root@vm1 ~]# 
 [root@vm1 ~]# git --version
-git version 2.25.0
+git version 2.26.0
 ```
 
 ### 2. 拉取 rocketmq-console 源码
 ```
-[root@vm1 ~]# git clone https://github.com/apache/rocketmq-externals.git project/rocketmq-externals/
-Cloning into 'project/rocketmq-externals'...
-remote: Enumerating objects: 30, done.
-remote: Counting objects: 100% (30/30), done.
-remote: Compressing objects: 100% (23/23), done.
-remote: Total 18778 (delta 3), reused 18 (delta 1), pack-reused 18748
-Receiving objects: 100% (18778/18778), 33.22 MiB | 348.00 KiB/s, done.
-Resolving deltas: 100% (7350/7350), done.
+[root@vm1 ~]# git clone https://github.com/apache/rocketmq-externals.git $HOME/project/rocketmq-externals/
+Cloning into '/root/project/rocketmq-externals'...
+remote: Enumerating objects: 40, done.
+remote: Counting objects: 100% (40/40), done.
+remote: Compressing objects: 100% (29/29), done.
+remote: Total 18789 (delta 4), reused 23 (delta 1), pack-reused 18749
+Receiving objects: 100% (18789/18789), 33.22 MiB | 513.00 KiB/s, done.
+Resolving deltas: 100% (7352/7352), done.
 Updating files: 100% (6193/6193), done.
 ```
 
