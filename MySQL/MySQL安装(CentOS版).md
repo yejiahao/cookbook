@@ -72,6 +72,9 @@ socket = /usr/mysql/home/mysqld.sock
 ```
 [root@localhost ~]# chown -R mysql:mysql $MYSQL_HOME/
 [root@localhost ~]# mysqld -I
+```
+~~mysqld --initialize --user=mysql # V5.7.29~~
+```
 [root@localhost ~]# cat $MYSQL_HOME/mysqld.log
 2019-06-27T08:23:26.313949Z 0 [System] [MY-013169] [Server] /usr/mysql/mysql-8.0.16-linux-glibc2.12-x86_64/bin/mysqld (mysqld 8.0.16) initializing of server in progress as process 1246
 2019-06-27T08:23:30.934768Z 5 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: sf)mBgczk4ae
@@ -81,6 +84,9 @@ socket = /usr/mysql/home/mysqld.sock
 ### 启动 MySQL
 ```
 [root@localhost ~]# mysqld_safe -D
+```
+~~mysqld_safe --user=mysql & # V5.7.29~~
+```
 2019-06-27T08:24:05.565399Z mysqld_safe Logging to '/usr/mysql/home/mysqld.log'.
 2019-06-27T08:24:05.610734Z mysqld_safe Starting mysqld daemon with databases from /usr/mysql/home/data
 2019-06-27T08:24:06.936967Z mysqld_safe A mysqld process with pid=1484 is already running. Aborting!!
