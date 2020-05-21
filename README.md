@@ -19,6 +19,7 @@ Welcome to cookbook. I hope these guides can help you.
 
 ### Git
 - [**Git配置指令**](./Git/Git配置指令.md)
+- [**GitLab部署**](./Git/GitLab部署.md)
 
 ### Java
 - [**Java代码规范**](./Java/Java代码规范.md)
