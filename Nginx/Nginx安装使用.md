@@ -58,3 +58,74 @@ nginx -s reload # 重载配置
 nginx -s quit # 正常关闭
 nginx -s stop # 快速关闭
 ```
+
+***
+
+### 开机自启动
+
+#### 添加启动文件
+
+***/etc/init.d/nginxd***
+```sh
+#!/bin/sh
+
+# chkconfig: 3 10 90
+# description: nginx is an HTTP and reverse proxy server, a mail proxy server, and a generic TCP/UDP proxy server.
+
+nginx=/usr/nginx/home/sbin/nginx
+
+case "$1" in
+start)
+  # shellcheck disable=SC2039
+  echo -n "Starting Nginx"
+  $nginx
+  echo " done"
+  ;;
+stop)
+  # shellcheck disable=SC2039
+  echo -n "Stopping Nginx"
+  $nginx -s quit
+  echo " done"
+  ;;
+forceStop)
+  # shellcheck disable=SC2039
+  echo -n "Stopping(force) Nginx"
+  $nginx -s stop
+  echo " done"
+  ;;
+restart)
+  ${0} stop
+  ${0} start
+  ;;
+reload)
+  # shellcheck disable=SC2039
+  echo -n "Reloading Nginx"
+  $nginx -s reload
+  echo " done"
+  ;;
+test)
+  $nginx -t
+  ;;
+version)
+  $nginx -V
+  ;;
+show)
+  # shellcheck disable=SC2009
+  ps -ef | grep nginx | grep -v grep
+  ;;
+*)
+  echo "Usage: ${0} {start|stop|forceStop|restart|reload|test|version|show}" >&2
+  exit 1
+  ;;
+esac
+```
+
+#### 配置启动
+```
+[root@vmx ~]# chmod +x /etc/init.d/nginxd
+[root@vmx ~]# chkconfig --add nginxd
+[root@vmx ~]# chkconfig --list nginxd
+nginxd          0:off   1:off   2:off   3:on    4:off   5:off   6:off
+[root@vmx ~]# service nginxd
+Usage: /etc/init.d/nginxd {start|stop|forceStop|restart|reload|test|version|show}
+```
