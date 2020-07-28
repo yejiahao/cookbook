@@ -36,7 +36,7 @@ Updating files: 100% (6193/6193), done.
 
 mqAddr=localhost:9876
 consoleLocation=$HOME/project/rocketmq-externals/rocketmq-console/
-consoleFile=rocketmq-console-ng-1.0.1.jar
+consoleFile=rocketmq-console-ng-2.0.0.jar
 
 case "$1" in
 start)
