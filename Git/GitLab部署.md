@@ -38,3 +38,17 @@ run: redis-exporter: (pid 3837) 3539s; run: log: (pid 2831) 3932s
 run: sidekiq: (pid 3844) 3538s; run: log: (pid 2583) 4089s
 run: unicorn: (pid 3859) 3537s; run: log: (pid 2551) 4105s
 ```
+
+### 卸载 GitLab
+```
+[root@vm2 ~]# gitlab-ctl stop
+[root@vm2 ~]# gitlab-ctl cleanse
+[root@vm2 ~]# gitlab-ctl uninstall
+
+[root@vm2 ~]# rm -rf /opt/gitlab/ && rm -f /usr/bin/gitlab-* && rm -rf /dev/shm/gitlab/
+```
+
+### 移除旧 rpm 包
+```
+[root@vm2 ~]# rpm -qa | grep gitlab | xargs rpm -e
+```
