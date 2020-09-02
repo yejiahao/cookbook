@@ -34,9 +34,14 @@ Updating files: 100% (6193/6193), done.
 ```sh
 #!/bin/sh
 
-mqAddr=localhost:9876
+namesrvAddr=$2
 consoleLocation=$HOME/project/rocketmq-externals/rocketmq-console/
 consoleFile=rocketmq-console-ng-2.0.0.jar
+
+if [ -z "$2" ]
+then
+  namesrvAddr=localhost:9876
+fi
 
 case "$1" in
 start)
@@ -44,7 +49,7 @@ start)
   nohup sh mqnamesrv &
   sleep 5s
   # 启动 broker
-  nohup sh mqbroker -c "$ROCKETMQ_HOME"/conf/broker.conf -n $mqAddr &
+  nohup sh mqbroker -c "$ROCKETMQ_HOME"/conf/2m-2s-async/broker-a.properties -n $namesrvAddr &
   sleep 10s
   # 启动 console
   cd "$consoleLocation" || exit
@@ -53,7 +58,7 @@ start)
   fi
   # 运行时生成的 nohup.out 可被 .gitignore 覆盖到
   cd target/ && \
-  (nohup java -jar $consoleFile --server.port=6789 --rocketmq.config.namesrvAddr=$mqAddr &) && \
+  (nohup java -jar $consoleFile --server.port=6789 --rocketmq.config.namesrvAddr=$namesrvAddr &) && \
   cd "$HOME" || exit
   ;;
 stop)
