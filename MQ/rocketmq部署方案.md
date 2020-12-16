@@ -5,7 +5,7 @@
 ### 1.1. 查看系统版本
 ```
 [root@vm1 ~]# uname -a
-Linux vm1.yejh 2.6.32-754.el6.x86_64 #1 SMP Tue Jun 19 21:26:04 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+Linux vm1 2.6.32-754.el6.x86_64 #1 SMP Tue Jun 19 21:26:04 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
 [root@vm1 ~]# cat /etc/issue
 CentOS release 6.10 (Final)
 Kernel \r on an \m
@@ -15,14 +15,14 @@ Kernel \r on an \m
 ### 1.2. 检查 JDK, Maven
 ```
 [root@vm1 ~]# java -version
-java version "1.8.0_231"
-Java(TM) SE Runtime Environment (build 1.8.0_231-b11)
-Java HotSpot(TM) 64-Bit Server VM (build 25.231-b11, mixed mode)
+java version "1.8.0_271"
+Java(TM) SE Runtime Environment (build 1.8.0_271-b09)
+Java HotSpot(TM) 64-Bit Server VM (build 25.271-b09, mixed mode)
 [root@vm1 ~]# 
 [root@vm1 ~]# mvn -v
-Apache Maven 3.6.1 (d66c9c0b3152b2e69ee9bac180bb8fcc8e6af555; 2019-04-05T03:00:29+08:00)
+Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
 Maven home: /usr/maven/home
-Java version: 1.8.0_231, vendor: Oracle Corporation, runtime: /usr/java/jdk1.8.0_231/jre
+Java version: 1.8.0_271, vendor: Oracle Corporation, runtime: /usr/java/jdk1.8.0_271/jre
 Default locale: en_US, platform encoding: UTF-8
 OS name: "linux", version: "2.6.32-754.el6.x86_64", arch: "amd64", family: "unix"
 ```
@@ -128,4 +128,19 @@ JAVA_OPT="${JAVA_OPT} -server -Xms512m -Xmx1g -Xmn256m"
 # 多个地址以;分隔
 namesrvAddr = 1.2.3.4:9876;
 brokerIP1 = 1.2.3.4
+```
+
+- #### 同一机器启动多个 broker 实例失败
+***$ROCKETMQ_HOME/conf/broker.conf***
+```properties
+storePathRootDir=/root/store/broker-a
+listenPort=10911
+# 启用 sql92 过滤支持
+enablePropertyFilter=true
+```
+> ```echo -e 'storePathRootDir=/root/store/broker-a\nlistenPort=10911\nenablePropertyFilter=true' >> $ROCKETMQ_HOME/conf/broker.conf```
+
+- #### 删除 RocketMQ 数据
+```
+[root@vm1 ~]# rm -rf logs/ nohup.out store/
 ```

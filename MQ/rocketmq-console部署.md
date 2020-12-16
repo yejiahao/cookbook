@@ -8,12 +8,12 @@
 [root@vm1 ~]# mvn -v
 Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
 Maven home: /usr/maven/home
-Java version: 1.8.0_241, vendor: Oracle Corporation, runtime: /usr/java/jdk1.8.0_241/jre
+Java version: 1.8.0_271, vendor: Oracle Corporation, runtime: /usr/java/jdk1.8.0_271/jre
 Default locale: en_US, platform encoding: UTF-8
 OS name: "linux", version: "2.6.32-754.el6.x86_64", arch: "amd64", family: "unix"
 [root@vm1 ~]# 
 [root@vm1 ~]# git --version
-git version 2.26.0
+git version 2.29.2
 ```
 
 ### 2. 拉取 rocketmq-console 源码
@@ -50,7 +50,9 @@ start)
   sleep 5s
   # 启动 broker
   nohup sh mqbroker -c "$ROCKETMQ_HOME"/conf/2m-2s-async/broker-a.properties -n $namesrvAddr &
-  sleep 10s
+  sleep 5s
+  nohup sh mqbroker -c "$ROCKETMQ_HOME"/conf/2m-2s-async/broker-b-s.properties -n $namesrvAddr &
+  sleep 5s
   # 启动 console
   cd "$consoleLocation" || exit
   if [ ! -d target/ ]; then
@@ -73,7 +75,7 @@ stop)
   sh mqshutdown namesrv
   ;;
 *)
-  echo "Usage: $0 {start|stop}" >&2
+  echo "Usage: $0 {start|stop} [<namesrvAddr1\;namesrvAddr2>]" >&2
   exit 1
   ;;
 esac
