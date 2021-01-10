@@ -26,7 +26,7 @@ then
     # extract and install
     tar -zxvf $HOME/upload/${package} -C $HOME/ && cd $HOME/$1/
     # refer to http://nginx.org/en/docs/configure.html
-    ./configure --prefix=${instPath}/$1 --with-http_ssl_module --with-http_stub_status_module
+    ./configure --prefix=${instPath}/$1 --with-http_ssl_module --with-http_stub_status_module --with-stream
     make && make install
     # delete source folder
     rm -rf $HOME/$1/
@@ -36,7 +36,7 @@ then
     exit 0
 fi
 
-echo "Usage: $0 [version(e.g., nginx-1.16.0)]"
+echo "Usage: $0 [version(e.g., nginx-1.18.0)]"
 ```
 
 ### 配置环境变量
@@ -47,6 +47,9 @@ NGINX_HOME=/usr/nginx/home
 PATH=$PATH:$NGINX_HOME/sbin
 export PATH NGINX_HOME
 ```
+
+### Nginx 操作文档
+[官方文档](http://nginx.org/en/docs/)
 
 ### Nginx 基本指令
 ```sh
