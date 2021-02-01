@@ -82,8 +82,31 @@ Certificate was added to keystore
 
 ### 内存分析
 
+- **jps**
+```
+[root@vm1 ~]# jps -ml
+2528 org.apache.rocketmq.namesrv.NamesrvStartup
+2546 org.apache.rocketmq.broker.BrokerStartup -c /usr/rocketmq/home/conf/2m-2s-async/broker-a.properties -n localhost:9876
+9908 sun.tools.jps.Jps -ml
+2586 org.apache.rocketmq.broker.BrokerStartup -c /usr/rocketmq/home/conf/2m-2s-async/broker-b-s.properties -n localhost:9876
+2671 rocketmq-console-ng-2.0.0.jar --server.port=6789 --rocketmq.config.namesrvAddr=localhost:9876
+```
+
+- **jinfo**
+```
+[root@vm1 ~]# jinfo <pid>
+Attaching to process ID 2671, please wait...
+Debugger attached successfully.
+Server compiler detected.
+JVM version is 25.271-b09
+```
+
 - **jmap**
 ```
+[root@vm1 ~]# jmap -dump:format=b,file=./dump.hprof <pid>
+Dumping heap to /root/dump.hprof ...
+Heap dump file created
+[root@vm1 ~]# 
 [root@localhost ~]# jmap -histo:live <pid>
 
  num     #instances         #bytes  class name
