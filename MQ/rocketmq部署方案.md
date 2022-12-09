@@ -115,18 +115,22 @@ Send shutdown request to mqnamesrv(9239) OK
 ```sh
 JAVA_OPT="${JAVA_OPT} -server -Xms512m -Xmx1g -Xmn256m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=320m"
 ```
+~~JAVA_OPT="${JAVA_OPT} -server -Xms4g -Xmx4g -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=320m"~~
+```sh
+JAVA_OPT="${JAVA_OPT} -server -Xms512m -Xmx1g -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=320m"
+```
 ***$ROCKETMQ_HOME/bin/runbroker.sh***
 
-~~JAVA_OPT="${JAVA_OPT} -server -Xms8g -Xmx8g -Xmn4g"~~
+~~JAVA_OPT="${JAVA_OPT} -server -Xms8g -Xmx8g"~~
 ```sh
-JAVA_OPT="${JAVA_OPT} -server -Xms512m -Xmx1g -Xmn256m"
+JAVA_OPT="${JAVA_OPT} -server -Xms512m -Xmx1g"
 ```
 
 - #### 客户端外网访问 RocketMQ 失败
 ***$ROCKETMQ_HOME/conf/broker.conf***
 ```properties
 # 多个地址以;分隔
-namesrvAddr = 1.2.3.4:9876;
+# namesrvAddr = 1.2.3.4:9876;
 brokerIP1 = 1.2.3.4
 ```
 
@@ -135,7 +139,6 @@ brokerIP1 = 1.2.3.4
 ```properties
 storePathRootDir=/root/store/broker-a
 listenPort=10911
-# 启用 sql92 过滤支持
 enablePropertyFilter=true
 ```
 > ```echo -e 'storePathRootDir=/root/store/broker-a\nlistenPort=10911\nenablePropertyFilter=true' >> $ROCKETMQ_HOME/conf/broker.conf```

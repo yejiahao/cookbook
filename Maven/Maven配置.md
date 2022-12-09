@@ -35,7 +35,7 @@ OS name: "linux", version: "2.6.32-754.el6.x86_64", arch: "amd64", family: "unix
     <id>alimaven</id>
     <mirrorOf>central</mirrorOf>
     <name>aliyun maven</name>
-    <url>http://maven.aliyun.com/nexus/content/repositories/central/</url>
+    <url>https://maven.aliyun.com/repository/central</url>
   </mirror>
 </mirrors>
 ```

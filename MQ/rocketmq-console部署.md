@@ -36,7 +36,7 @@ Updating files: 100% (6193/6193), done.
 
 namesrvAddr=$2
 consoleLocation=$HOME/project/rocketmq-externals/rocketmq-console/
-consoleFile=rocketmq-console-ng-2.0.0.jar
+consoleFile=rocketmq-dashboard-1.0.1-SNAPSHOT.jar
 
 if [ -z "$2" ]
 then
