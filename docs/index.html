@@ -19,6 +19,7 @@
         auto2top: true,
         loadSidebar: true,
         loadNavbar: true,
+        loadFooter: true,
         subMaxLevel: 4,
 
         // 完整配置参数
@@ -44,6 +45,15 @@
             // 初始化索引时，我们从侧边栏查找第一个路径
             // 如果它与列表中的前缀匹配，我们将切换到相应的索引
             pathNamespaces: ['/zh-cn', '/ru-ru', '/ru-ru/v1']
+        },
+        pagination: {
+            crossChapter: true,
+            crossChapterText: true
+        },
+        copyCode: {
+            buttonText: 'Copy',
+            errorText: 'Error',
+            successText: 'Copied'
         }
     }
 </script>
@@ -51,7 +61,10 @@
 <script src="//cdn.jsdelivr.net/npm/docsify"></script>
 <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/emoji.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/@alertbox/docsify-footer/dist/docsify-footer.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-java.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-go.min.js"></script>
