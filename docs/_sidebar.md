@@ -16,7 +16,7 @@
         - [kafka安装使用](./MQ/kafka安装使用.md)
         - [rocketmq部署方案](./MQ/rocketmq部署方案.md)
         - [rocketmq-dashboard部署](./MQ/rocketmq-dashboard部署.md)
-        - [rocketmq运维管理](./MQ/rocketmq运维管理.pdf)
+        - [rocketmq运维管理](./MQ/rocketmq运维管理.md)
 
     - Maven
         - [Maven配置](./Maven/Maven配置.md)
