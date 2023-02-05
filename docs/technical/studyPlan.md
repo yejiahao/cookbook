@@ -196,5 +196,34 @@ words[wordIndex] &= ~(1L << bitIndex);
 
 ##### 2023/01/18
 
-1. 了解 Raft 共识算法
+1. 了解 [Raft](https://raft.github.io/) 共识算法
 2. [Disruptor](https://github.com/LMAX-Exchange/disruptor) 初探
+
+##### 2023/02/05
+
+1. ~~实现归并排序~~: **类比把两个有序链表合并成总的有序链表来理解**
+
+```java
+int[] tempArr = new int[max - min + 1];
+int tempIdx = 0;
+
+int p = min;
+int q = mid + 1;
+while (p <= mid && q <= max) {
+    if (arr[p] <= arr[q]) {
+        tempArr[tempIdx++] = arr[p++];
+    } else {
+        tempArr[tempIdx++] = arr[q++];
+    }
+}
+while (p <= mid) {
+    tempArr[tempIdx++] = arr[p++];
+}
+while (q <= max) {
+    tempArr[tempIdx++] = arr[q++];
+}
+
+for (int i = 0, len = tempArr.length; i < len; i++) {
+    arr[i + min] = tempArr[i];
+}
+```
