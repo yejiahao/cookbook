@@ -24,7 +24,40 @@
 1. [redisson](https://redisson.org/) 编写例子运行
 2. 《RocketMQ技术内幕：RocketMQ架构设计与实现原理（第2版）.pdf》阅读
 3. ~~《MySQL 索引及优化实战.pdf》阅读~~: **（性能高 -> 低）explain 中的 type 是 const, ref, range, index, ALL**
-4. `MySQL` 是如何解决幻读的
+4. ~~`MySQL` 是如何解决幻读的~~: **MVCC + next-key lock**
+
+```sql
+DROP TABLE IF EXISTS `dept`;
+CREATE TABLE `dept`
+(
+    `id`   int(11) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(20) DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8;
+INSERT INTO dept(name)
+VALUES ('后勤部');
+```
+
+|     | Session A                                                                                         | Session B                             |
+|-----|---------------------------------------------------------------------------------------------------|---------------------------------------|
+| T1  | BEGIN;                                                                                            | BEGIN;                                |
+| T2  | SELECT * FROM dept;<br/>SELECT * FROM dept LOCK IN SHARE MODE;<br/>SELECT * FROM dept FOR UPDATE; |                                       |
+| T3  |                                                                                                   | INSERT INTO dept(name) VALUES('研发部'); |
+| T4  |                                                                                                   | COMMIT;                               |
+| T5  | SELECT * FROM dept;<br/>UPDATE dept SET name = '实验部';                                             |                                       |
+| T6  | COMMIT;                                                                                           |                                       |
+
+- 幻读标识：A 事务前后两次读，B 事务中间 insert 操作
+- 幻读解决：对于**快照读**，MVCC 解决，如 T2 第 1 行 + T5 第 1 行；对于**当前读**，临键锁解决，如 T2 第 2, 3 行 + T5 第 2 行，
+  此时 T3 被锁住直到 T6 结束后；对于**先快照读后当前读**，无法解决，如 T2 第 1 行 + T5 第 2 行
+
+_临键锁加锁规则_
+
+- 原则1：加锁的基本单位是 next-key lock，前开后闭区间。（上锁顺序先间隙锁再记录锁）
+- 原则2：查找过程中访问到的对象才会加锁。（共享锁命中覆盖索引时，无须回表，可能会导致其它事务在主键加锁成功；排他锁则不会）
+- 优化1：索引上的等值查询，给**唯一索引**加锁的时候，next-key lock 退化为行锁。
+- 优化2：索引上的等值查询，向右遍历时且最后一个值不满足等值条件的时候，next-key lock 退化为间隙锁。
+- 一个bug：**唯一索引**上的范围查询会访问到不满足条件的第一个值为止。
 
 ##### 2020/04/07
 
@@ -227,3 +260,16 @@ for (int i = 0, len = tempArr.length; i < len; i++) {
     arr[i + min] = tempArr[i];
 }
 ```
+
+##### 2023/02/07
+
+1. ~~[ZooKeeper](https://zookeeper.apache.org/) 学习~~: **数据结构类似文件树状；Zookeeper 和 Curator 的 API 使用**
+
+- 创建临时顺序节点：`create -s -e path data` -s 代表顺序节点，-e 代表临时节点；临时节点不能再创建子节点；session 关闭，临时节点清除
+- 实现乐观锁：`set path data version` 版本号一致才能成功设置
+- 实现共享锁：`/shared_lock/vm5.yejh.cn-R-0000000001, /shared_lock/vm6.yejh.cn-W-0000000002 ...` 创建**临时**顺序节点；
+  **读请求**如果所有比自己小的子节点都是读请求或者没有比自己序号小的子节点，表明成功获取共享锁，如果没有获取到共享锁，向比自己序号小的最后一个写请求节点注册
+  watcher 监听；**写请求**如果自己不是序号最小的子节点，那么就进入等待，如果没有获取到共享锁，向比自己序号小的最后一个节点注册
+  watcher 监听。
+- 实现排他锁：`/exclusive_lock/lock` 创建**临时**子节点，最终只有一个客户端能创建成功。所有没有获取到锁的客户端可以在
+  /exclusive_lock 节点上注册一个子节点变更的 watcher 监听事件，以便重新争取获得锁。
