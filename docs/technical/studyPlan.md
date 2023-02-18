@@ -378,3 +378,23 @@ For more details see free(1).
 - I/O 多路复用：主线程发起 select/poll/epoll 系统调用，内核态遍历（epoll 是回调）可读连接，无须频繁切换状态；读数据时复制过程阻塞
 - 信号驱动 I/O：业务线程发起 sigaction 系统调用，内核回调可读连接；读数据时复制过程阻塞
 - 异步 I/O：业务线程发起 aio_read 系统调用，内核找到可读连接并**主动**复制数据到用户空间，最后通知线程复制完毕
+
+##### 2023/02/18
+
+1. ~~[Nacos](https://nacos.io/) 接入~~: **①配置管理 ②服务发现**
+
+   ![Basic Architecture and Concepts](../_resource/nacos_basic_architecture_and_concepts.jpeg)
+
+- API 类型：更新或插入、删除、主动读、监听读
+
+```xml
+<!--依赖包-->
+<artifactId>nacos-client</artifactId>
+<artifactId>nacos-common</artifactId>
+<artifactId>nacos-api</artifactId>
+<artifactId>nacos-config-spring-boot-starter</artifactId>
+<artifactId>nacos-discovery-spring-boot-starter</artifactId>
+```
+
+- 保护阈值：健康实例占比小于该值时，返回 **健康 + 非健康**
+  的服务提供者集合，牺牲流量保护剩余实例 `private float protectThreshold = 0.0F;`
