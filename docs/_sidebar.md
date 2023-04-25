@@ -21,11 +21,12 @@
     - Maven
         - [Maven配置](middleware/Maven/Maven配置.md)
 
-    - MySQL
-        - [MySQL安装](middleware/MySQL/MySQL安装.md)
-        - [MySQL安装(CentOS版)](middleware/MySQL/MySQL安装(CentOS版).md)
-        - [MySQL主从复制](middleware/MySQL/MySQL主从复制.md)
-        - [SQL练习](middleware/MySQL/SQL练习.md)
+    - SQL
+        - [MySQL安装](middleware/SQL/MySQL安装.md)
+        - [MySQL安装(CentOS版)](middleware/SQL/MySQL安装(CentOS版).md)
+        - [MySQL主从复制](middleware/SQL/MySQL主从复制.md)
+        - [PostgreSQL安装](middleware/SQL/PostgreSQL安装.md)
+        - [SQL练习](middleware/SQL/SQL练习.md)
 
     - Nginx
         - [Nginx安装使用](middleware/Nginx/Nginx安装使用.md)
