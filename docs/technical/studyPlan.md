@@ -398,3 +398,20 @@ For more details see free(1).
 
 - 保护阈值：健康实例占比小于该值时，返回 **健康 + 非健康**
   的服务提供者集合，牺牲流量保护剩余实例 `private float protectThreshold = 0.0F;`
+
+##### 2023/04/23
+
+1. ~~SQL 窗口函数~~
+
+```sql
+where window_definition has the syntax
+
+[ existing_window_name ]
+[ PARTITION BY expression [, ...] ]
+[ ORDER BY expression [ ASC | DESC | USING operator ] [ NULLS { FIRST | LAST } ] [, ...] ]
+[ frame_clause ]
+```
+
+- 窗口函数不改变原结果集的行数，聚合函数把结果集汇总成组内一行
+- 确保结果集以特定方式排序的话，不建议依赖窗口函数的排序，应使用外层的 `ORDER BY` 来控制
+- PostgreSQL 排名窗口函数 **(row_number(), rank(), dense_rank(), percent_rank()...)** 遇到 NULL 值时，NULL 值当作 +∞ 来计算
