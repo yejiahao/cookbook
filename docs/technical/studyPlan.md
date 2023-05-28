@@ -415,3 +415,82 @@ where window_definition has the syntax
 - 窗口函数不改变原结果集的行数，聚合函数把结果集汇总成组内一行
 - 确保结果集以特定方式排序的话，不建议依赖窗口函数的排序，应使用外层的 `ORDER BY` 来控制
 - PostgreSQL 排名窗口函数 **(row_number(), rank(), dense_rank(), percent_rank()...)** 遇到 NULL 值时，NULL 值当作 +∞ 来计算
+
+##### 2023/05/28
+
+1. ~~Redis 过期键监听实现延迟队列~~
+
+- 中间件开启配置
+
+```properties
+#  By default all notifications are disabled because most users don't need
+#  this feature and the feature has some overhead. Note that if you don't
+#  specify at least one of K or E, no events will be delivered.
+notify-keyspace-events Ex
+```
+
+- 获取过期事件（同时获取并删除影子键，用于获取原 value 值）
+
+```java
+@Configuration
+public class RedisTemplateConfiguration {
+
+    @Bean
+    public RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory) {
+        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory);
+        return container;
+    }
+}
+
+@Component
+public class RedisKeyExpirationListener extends KeyExpirationEventMessageListener {
+
+    public RedisKeyExpirationListener(RedisMessageListenerContainer listenerContainer) {
+        super(listenerContainer);
+    }
+
+    @Override
+    public void onMessage(Message message, byte[] pattern) {}
+}
+```
+
+2. ~~[mapstruct](https://mapstruct.org/) 使用~~
+
+- 添加 maven 插件（注意 `annotationProcessorPaths` 声明的顺序）
+
+```xml
+
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <version>3.8.1</version>
+    <configuration>
+        <source>${maven.compiler.source}</source>
+        <target>${maven.compiler.target}</target>
+        <encoding>${project.build.sourceEncoding}</encoding>
+        <annotationProcessorPaths>
+            <path>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </path>
+            <path>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${mapstruct.version}</version>
+            </path>
+        </annotationProcessorPaths>
+    </configuration>
+</plugin>
+```
+
+- 添加转换器接口
+
+```java
+@Mapper
+public interface ReqEntityMapper {
+
+    ReqEntityMapper INSTANCE = Mappers.getMapper(ReqEntityMapper.class);
+}
+```
