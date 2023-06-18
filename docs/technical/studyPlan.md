@@ -38,14 +38,14 @@ INSERT INTO dept(name)
 VALUES ('后勤部');
 ```
 
-|     | Session A                                                                                         | Session B                             |
-|-----|---------------------------------------------------------------------------------------------------|---------------------------------------|
-| T1  | BEGIN;                                                                                            | BEGIN;                                |
-| T2  | SELECT * FROM dept;<br/>SELECT * FROM dept LOCK IN SHARE MODE;<br/>SELECT * FROM dept FOR UPDATE; |                                       |
-| T3  |                                                                                                   | INSERT INTO dept(name) VALUES('研发部'); |
-| T4  |                                                                                                   | COMMIT;                               |
-| T5  | SELECT * FROM dept;<br/>UPDATE dept SET name = '实验部';                                             |                                       |
-| T6  | COMMIT;                                                                                           |                                       |
+|    | Session A                                                                                         | Session B                             |
+|----|---------------------------------------------------------------------------------------------------|---------------------------------------|
+| T1 | BEGIN;                                                                                            | BEGIN;                                |
+| T2 | SELECT * FROM dept;<br/>SELECT * FROM dept LOCK IN SHARE MODE;<br/>SELECT * FROM dept FOR UPDATE; |                                       |
+| T3 |                                                                                                   | INSERT INTO dept(name) VALUES('研发部'); |
+| T4 |                                                                                                   | COMMIT;                               |
+| T5 | SELECT * FROM dept;<br/>UPDATE dept SET name = '实验部';                                             |                                       |
+| T6 | COMMIT;                                                                                           |                                       |
 
 - 幻读标识：A 事务前后两次读，B 事务中间 insert 操作
 - 幻读解决：对于**快照读**，MVCC 解决，如 T2 第 1 行 + T5 第 1 行；对于**当前读**，临键锁解决，如 T2 第 2, 3 行 + T5 第 2 行，
@@ -186,12 +186,12 @@ words[wordIndex] &= ~(1L << bitIndex);
 
 1. ~~InnoDB 意向锁~~:
 
-| 锁类型 | X   | IX  | IS  | S   |
-|-----|-----|-----|-----|-----|
-| X   | ✖   | ✖   | ✖   | ✖   |
-| IX  | ✖   | ✔   | ✔   | ✖   |
-| IS  | ✖   | ✔   | ✔   | ✔   |
-| S   | ✖   | ✖   | ✔   | ✔   |
+| 锁类型 | X | IX | IS | S |
+|-----|---|----|----|---|
+| X   | ✖ | ✖  | ✖  | ✖ |
+| IX  | ✖ | ✔  | ✔  | ✖ |
+| IS  | ✖ | ✔  | ✔  | ✔ |
+| S   | ✖ | ✖  | ✔  | ✔ |
 
 - InnoDB 支持多粒度锁，特定场景下，行级锁可以与表级锁共存
 - 意向锁之间互不排斥，但除了 IS 与 S 兼容外，意向锁会与 共享锁 / 排他锁 互斥
@@ -319,11 +319,11 @@ FROM sequence_id_generator;
 - 高可用：即使客户端的释放锁的代码逻辑出现问题，锁最终一定还是会被释放，不会影响其他线程对共享资源的访问
 - 可重入：一个节点获取了锁之后，还可以再次获取锁
 
-|     | 数据库                                                                       | Zookeeper                                     | Redis                             |
-|-----|---------------------------------------------------------------------------|-----------------------------------------------|-----------------------------------|
-| 优点  | 利用唯一索引，简单暴力                                                               | 会话断开时临时节点消失，无须设置 TTL                          | 内存高，并发效率高                         |
-| 缺点  | 单点故障；无失效时间；抢锁失败抛异常非阻塞；不可重入                                                | 频繁操作磁盘动态创建删除临时节点，性能开销高                        | 内存淘汰策略导致锁信息丢失                     |
-| 实现  | `INSERT INTO t_lock (unique_key, msg) VALUES ('exclusive_lock', 's0-0');` | [Apache Curator](https://curator.apache.org/) | [Redisson](https://redisson.org/) |
+|    | 数据库                                                                       | Zookeeper                                     | Redis                             |
+|----|---------------------------------------------------------------------------|-----------------------------------------------|-----------------------------------|
+| 优点 | 利用唯一索引，简单暴力                                                               | 会话断开时临时节点消失，无须设置 TTL                          | 内存高，并发效率高                         |
+| 缺点 | 单点故障；无失效时间；抢锁失败抛异常非阻塞；不可重入                                                | 频繁操作磁盘动态创建删除临时节点，性能开销高                        | 内存淘汰策略导致锁信息丢失                     |
+| 实现 | `INSERT INTO t_lock (unique_key, msg) VALUES ('exclusive_lock', 's0-0');` | [Apache Curator](https://curator.apache.org/) | [Redisson](https://redisson.org/) |
 
 ##### 2023/02/10
 
@@ -494,3 +494,8 @@ public interface ReqEntityMapper {
     ReqEntityMapper INSTANCE = Mappers.getMapper(ReqEntityMapper.class);
 }
 ```
+
+##### 2023/06/18
+
+1. ~~[EMQX](https://www.emqx.io/) MQTT 接入~~
+2. ~~Spring Boot 中实现 WebSocket API~~

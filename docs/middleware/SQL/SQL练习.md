@@ -1,11 +1,11 @@
 ### 事务隔离级别（4种）
 
-|                                       | 脏读  | 不可重复读 | 幻读  |
-|---------------------------------------|-----|-------|-----|
-| Read uncommitted                      | ✔   | ✔     | ✔   |
-| Read committed _(Oracle, Sql Server)_ | ✖   | ✔     | ✔   |
-| Repeatable read _(MySQL)_             | ✖   | ✖     | ✔   |
-| Serializable                          | ✖   | ✖     | ✖   |
+|                                       | 脏读 | 不可重复读 | 幻读 |
+|---------------------------------------|----|-------|----|
+| Read uncommitted                      | ✔  | ✔     | ✔  |
+| Read committed _(Oracle, Sql Server)_ | ✖  | ✔     | ✔  |
+| Repeatable read _(MySQL)_             | ✖  | ✖     | ✔  |
+| Serializable                          | ✖  | ✖     | ✖  |
 
 ### 事务传播行为（7种）
 
