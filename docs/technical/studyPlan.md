@@ -498,4 +498,12 @@ public interface ReqEntityMapper {
 ##### 2023/06/18
 
 1. ~~[EMQX](https://www.emqx.io/) MQTT 接入~~
+
+- 伪证书下，支持 wss 协议（首先在管理端开启 Management -> Listeners -> TLS Verify）
+
+```java
+mqttConnectOptions.setSocketFactory(DummySSLSocketFactory.getDefault()); // DummySSLSocketFactory extends CustomSSLSocketFactory extends SSLSocketFactory
+mqttConnectOptions.setHttpsHostnameVerificationEnabled(false);
+```
+
 2. ~~Spring Boot 中实现 WebSocket API~~
