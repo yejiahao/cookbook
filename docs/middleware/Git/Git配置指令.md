@@ -58,6 +58,7 @@ git config --global alias.ci commit
 git config --global alias.br branch
 git config --global alias.mr merge
 git config --global alias.tg tag
+git config --global alias.cp cherry-pick
 ```
 
 ### 注册 git 账号，生成公私钥对
