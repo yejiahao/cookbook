@@ -1,7 +1,7 @@
 # Software Installation Guide
 
 [![GitHub stars][star-image]][star-url]
-![GitHub status][st-image]
+[![GitHub contributors][cb-image]][cb-url]
 [![GitHub commit][ci-image]][ci-url]
 
 > Books are the ladder of human progress.
@@ -67,7 +67,9 @@ Welcome to cookbook. I hope these guides can help you.
 
 [star-url]: https://github.com/yejiahao/cookbook/stargazers
 
-[st-image]: https://badgen.net/github/status/yejiahao/cookbook
+[cb-image]: https://badgen.net/github/contributors/yejiahao/cookbook
+
+[cb-url]: https://github.com/yejiahao/cookbook/graphs/contributors
 
 [ci-image]: https://badgen.net/github/last-commit/yejiahao/cookbook
 

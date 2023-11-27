@@ -507,3 +507,51 @@ mqttConnectOptions.setHttpsHostnameVerificationEnabled(false);
 ```
 
 2. ~~Spring Boot 中实现 WebSocket API~~
+
+##### 2023/11/14
+
+1. ~~MySQL 知识点~~
+
+- 如果字段是 `VARCHAR` 类型，SQL 写成**数值格式**时无法命中索引，反之可以
+- 前缀索引计算区分度
+
+```sql
+SELECT COUNT(DISTINCT (LEFT(age, 3))) / COUNT(*)
+FROM table
+```
+
+- `UNIQUE INDEX` 中 `NULL` 不算作重复值
+
+##### 2023/11/22
+
+1. ~~CDN(Content Delivery Network) 了解~~
+
+- 静态资源分布式存储，就近访问，类似京东仓库
+- 优化方向: 提前**预热**、减少**回源**；数据同步（**刷新**）业务方不用管厂商会做好
+- 防盗刷策略: ①http 头部 referer 过滤 ②IP 过滤 ③校验参数 param = digest(path + key + expire)
+
+##### 2023/11/23
+
+1. ~~Redis 打包命令方式~~
+
+|    | 事务                                     | 原生指令                                    | pipelining                                                    | Lua 脚本                           |
+|----|----------------------------------------|-----------------------------------------|---------------------------------------------------------------|----------------------------------|
+| 优点 | 两个不同的事务不会同时运行                          | 原子操作                                    | 打包不同类型的命令                                                     | 一次提交多条指令当作一条指令（单线程不受干扰）执行，减少网络开销 |
+| 缺点 | 不支持回滚导致不满足 `A`，`AOF fsync` 策略导致不满足 `D` | `Redis Cluster` 模式下要维护 key -> slot 映射关系 | 并发下会同时以交错方式执行                                                 | 脚本语法要写对；不满足 `A`, `D`             |
+| 实现 | `MULTI`, `EXEC`, `DISCARD`, `WATCH`    | `MGET`, `SADD` 等                        | [pipelining manual](https://redis.io/docs/manual/pipelining/) | `redis-cli EVAL "<xxx>"`         |
+
+##### 2023/11/27
+
+1. ~~TCP 学习~~: **①面向连接 ②点对点 ③可靠交付 ④全双工通信 ⑤面向字节流**
+
+- 首部字段: 长度 **20 + 4n(0 <= n <= 10)** 字节，其中包括 ①源端口16位 ②目的端口16位 ③seq 32位 ④ack 32位 ⑤6个标志位6位
+  ⑥窗口16位 等等
+- 发送端接收端有缓冲区，大小**大于等于**各自的窗口值
+- 三个指针定位窗口位置: `p1` 已收到 `ACK` 的最大序号；`p2` 已发送的最大序号；`p3` 允许发送的最大序号
+- 拥塞控制算法: **慢开始、拥塞避免、快重传、快恢复**
+
+  ![TCP congestion window](../_resource/tcp_congestion_window.png)
+  ![TCP congestion flowchart](../_resource/tcp_congestion_flowchart.png)
+- 三报文握手、四报文释放
+
+  ![TCP finite state machine](../_resource/tcp_fsm.png)
