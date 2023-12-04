@@ -71,7 +71,20 @@ _临键锁加锁规则_
 
 ##### 2020/04/26
 
-1. `TCP` 结构
+1. ~~TCP 学习~~: **①面向连接 ②点对点 ③可靠交付 ④全双工通信 ⑤面向字节流**
+
+- 首部字段: 长度 **20 + 4n(0 <= n <= 10)** 字节，其中包括 ①源端口16位 ②目的端口16位 ③seq 32位 ④ack 32位 ⑤6个标志位6位
+  ⑥窗口16位 等等
+- 发送端接收端有缓冲区，大小**大于等于**各自的窗口值
+- 三个指针定位窗口位置: `p1` 已收到 `ACK` 的最大序号；`p2` 已发送的最大序号；`p3` 允许发送的最大序号
+- 拥塞控制算法: **慢开始、拥塞避免、快重传、快恢复**
+
+  ![TCP congestion window](../_resource/tcp_congestion_window.png)
+  ![TCP congestion flowchart](../_resource/tcp_congestion_flowchart.png)
+- 三报文握手、四报文释放
+
+  ![TCP finite state machine](../_resource/tcp_fsm.png)
+
 2. ~~[Wireshark](https://www.wireshark.org/) 使用~~: **抓包，看协议**
 3. ~~ump v6.0.0 centrum 模块逻辑~~: **已输出文档**
 4. ~~小（大）顶堆 `PriorityQueue` 使用~~: **offer() 通过 (k - 1) >>> 1 找到 parent, poll() 通过 (k << 1) + 1 + 1 找到左右
@@ -214,7 +227,7 @@ words[wordIndex] &= ~(1L << bitIndex);
 
 1. ~~Redis 队列注意事项~~: **RPOPLPUSH 做 ACK 机制，防止丢消息；BLPOP | BRPOP 带时延阻塞，支持查询多个 list**
 
-2. [Spring](https://spring.io/) 为什么用三级缓存
+2. ~~[Spring](https://spring.io/) 为什么用三级缓存~~
 
 3. ~~海量数据处理解决方案~~: **①Hash 后分治 ②大小顶堆（PriorityQueue） ③位图法（BitSet） ④前缀树**
 
@@ -540,18 +553,6 @@ FROM table
 | 缺点 | 不支持回滚导致不满足 `A`，`AOF fsync` 策略导致不满足 `D` | `Redis Cluster` 模式下要维护 key -> slot 映射关系 | 并发下会同时以交错方式执行                                                 | 脚本语法要写对；不满足 `A`, `D`             |
 | 实现 | `MULTI`, `EXEC`, `DISCARD`, `WATCH`    | `MGET`, `SADD` 等                        | [pipelining manual](https://redis.io/docs/manual/pipelining/) | `redis-cli EVAL "<xxx>"`         |
 
-##### 2023/11/27
+##### 2023/12/02
 
-1. ~~TCP 学习~~: **①面向连接 ②点对点 ③可靠交付 ④全双工通信 ⑤面向字节流**
-
-- 首部字段: 长度 **20 + 4n(0 <= n <= 10)** 字节，其中包括 ①源端口16位 ②目的端口16位 ③seq 32位 ④ack 32位 ⑤6个标志位6位
-  ⑥窗口16位 等等
-- 发送端接收端有缓冲区，大小**大于等于**各自的窗口值
-- 三个指针定位窗口位置: `p1` 已收到 `ACK` 的最大序号；`p2` 已发送的最大序号；`p3` 允许发送的最大序号
-- 拥塞控制算法: **慢开始、拥塞避免、快重传、快恢复**
-
-  ![TCP congestion window](../_resource/tcp_congestion_window.png)
-  ![TCP congestion flowchart](../_resource/tcp_congestion_flowchart.png)
-- 三报文握手、四报文释放
-
-  ![TCP finite state machine](../_resource/tcp_fsm.png)
+1. [ClickHouse](https://clickhouse.com/) 索引存储结构
