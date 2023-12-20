@@ -56,7 +56,7 @@ export PATH MYSQL_HOME
 ```properties
 [mysqld]
 character-set-server = UTF8MB4
-port = 3306
+port = 3307
 # 设置安装目录
 basedir = /usr/mysql/home
 # 设置数据存放目录
@@ -107,7 +107,7 @@ socket = /usr/mysql/home/mysqld.sock
 2019-06-27T08:24:06.936967Z mysqld_safe A mysqld process with pid=1484 is already running. Aborting!!
 ```
 
-### 停止 MySQL
+### 停止 MySQL (CentOS 8.3 V5.7.43 要 kill -9 ppid)
 
 ```sh
 [root@localhost ~]# cat $MYSQL_HOME/mysqld.pid | xargs kill -9
@@ -126,7 +126,10 @@ Usage: mysql  {start|stop|restart|reload|force-reload|status}  [ MySQL server op
 ### 修改初始密码
 
 ```sh
-[root@localhost ~]# mysql -h localhost -u root -p'sf)mBgczk4ae'
+[root@vm5 ~]# ln -s /usr/lib64/libncurses.so.6.1 /usr/lib64/libncurses.so.5
+[root@vm5 ~]# ln -s /usr/lib64/libtinfo.so.6.1 /usr/lib64/libtinfo.so.5
+[root@vm5 ~]# 
+[root@vm5 ~]# mysql -h localhost -P 3307 -u root -p'sf)mBgczk4ae'
 mysql: [Warning] Using a password on the command line interface can be insecure.
 Welcome to the MySQL monitor.  Commands end with ; or \g.
 Your MySQL connection id is 8
