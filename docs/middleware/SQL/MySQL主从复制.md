@@ -184,13 +184,13 @@ socket = /usr/mysql/home/mysqld.sock
 CHANGE
 MASTER TO MASTER_HOST = 'vm0.yejh.cn',
     MASTER_PORT = 3307,
-    MASTER_USER = 'root',
-    MASTER_PASSWORD = 'mysql20170419',
+    MASTER_USER = 'slave_root',
+    MASTER_PASSWORD = 'slave_mysql20170419',
     MASTER_LOG_FILE = 'mysql-bin.000002',
     MASTER_LOG_POS = 154;
 -- 启停主从同步
 START
-SLAVE USER = 'slave_root' PASSWORD = 'slave_mysql20170419';
+SLAVE;
 STOP
 SLAVE;
 -- 查看 Slave_IO_Running, Slave_SQL_Running
