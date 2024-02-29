@@ -61,6 +61,13 @@ git config --global alias.tg tag
 git config --global alias.cp cherry-pick
 ```
 
+### 配置代理
+
+```sh
+git config --global http.proxy http://127.0.0.1:7890
+git config --global https.proxy http://127.0.0.1:7890
+```
+
 ### 注册 git 账号，生成公私钥对
 
 ```sh
