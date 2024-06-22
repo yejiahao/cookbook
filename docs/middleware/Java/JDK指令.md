@@ -86,6 +86,55 @@ Certificate was added to keystore
 [root@localhost ~]# keytool -delete -alias yejh -keystore $JAVA_HOME/jre/lib/security/cacerts [-storepass changeit]
 ```
 
+- **制作 Java KeyStore 文件**
+
+1. 生成 ***crt*** 证书和 ***key*** 私钥
+
+```sh
+[root@vmx ~]# openssl req -x509 -nodes -days 36500 -newkey rsa:2048 -keyout /usr/nginx/nginx.key -out /usr/nginx/nginx.crt
+Generating a RSA private key
+............................................+++++
+.......+++++
+writing new private key to '/usr/nginx/nginx.key'
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [XX]:CN
+State or Province Name (full name) []:GD
+Locality Name (eg, city) [Default City]:SZ
+Organization Name (eg, company) [Default Company Ltd]:yejh
+Organizational Unit Name (eg, section) []:ssl.yejh
+Common Name (eg, your name or your server's hostname) []:yejh.com
+Email Address []:yejh.1248@qq.com
+```
+
+2. 合并成 ***p12*** 文件，填入 ```server.ssl.key-password``` 值
+
+```sh
+[root@vmx ~]# openssl pkcs12 -export -in /usr/nginx/nginx.crt -inkey /usr/nginx/nginx.key -out /usr/nginx/nginx.p12
+Enter Export Password:
+Verifying - Enter Export Password:
+```
+
+3. 转换成 Java 生态识别的 ***jks***
+   文件，```server.ssl.key-password=ssl_kp```，```server.ssl.key-store-password=ssl_ksp```
+
+```sh
+[root@vmx ~]# keytool -importkeystore -v -srckeystore /usr/nginx/nginx.p12 -srcstoretype pkcs12 -srcstorepass ssl_kp -destkeystore /usr/java/java.jks -deststoretype jks -deststorepass ssl_ksp
+Importing keystore /usr/nginx/nginx.p12 to /usr/java/java.jks...
+Entry for alias 1 successfully imported.
+Import command completed:  1 entries successfully imported, 0 entries failed or cancelled
+[Storing /usr/java/java.jks]
+
+Warning:
+The JKS keystore uses a proprietary format. It is recommended to migrate to PKCS12 which is an industry standard format using "keytool -importkeystore -srckeystore /usr/java/java.jks -destkeystore /usr/java/java.jks -deststoretype pkcs12".
+```
+
 ***
 
 ### 内存分析
