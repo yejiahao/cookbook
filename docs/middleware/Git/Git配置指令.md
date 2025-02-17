@@ -59,6 +59,9 @@ git config --global alias.br branch
 git config --global alias.mr merge
 git config --global alias.tg tag
 git config --global alias.cp cherry-pick
+git config --global alias.sw switch
+git config --global alias.rs restore
+git config --global alias.fe fetch
 ```
 
 ### 配置代理
