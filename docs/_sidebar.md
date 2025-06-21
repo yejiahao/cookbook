@@ -50,3 +50,4 @@
 
 * 离线文档
     - [PlantUML](offline/PlantUML_zh.pdf)
+    - [MapStruct](offline/mapstruct-reference-guide.pdf)
